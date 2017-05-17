@@ -11,5 +11,11 @@ func main() {
 
 	contentBytes := utils.GetFileContent(config.Source)
 
-	fmt.Println(string(contentBytes))
+	serializer := utils.BigFiveResultsTextSerializer{}
+	serializer.Read(string(contentBytes))
+
+	results := serializer.Hash()
+
+	fmt.Println(results)
+	fmt.Println(len(results))
 }
