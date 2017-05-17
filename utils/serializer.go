@@ -11,6 +11,6 @@ func (s *BigFiveResultsTextSerializer) Read(text string) {
 }
 
 // Hash function
-func (s *BigFiveResultsTextSerializer) Hash() string {
+func (s BigFiveResultsTextSerializer) Hash() string {
 	return s.profile
 }

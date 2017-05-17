@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jiqiang/big-five-profile-poster/utils"
+)
 
 func main() {
-	fmt.Println("big5client")
+	config := utils.GetConfig("./config")
+
+	contentBytes := utils.GetFileContent(config.Source)
+
+	fmt.Println(string(contentBytes))
 }
