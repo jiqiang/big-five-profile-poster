@@ -40,21 +40,20 @@ func (s BigFiveResultsTextSerializer) Hash() string {
 	d := domain{}
 
 	p := personality{}
-
-	var domainName string
+	var user, domainName, line string
 	var domainScore int
 
 	isFirstRun := true
-
-	var line string
 
 	scanner := bufio.NewScanner(strings.NewReader(s.profile))
 
 	for scanner.Scan() {
 
 		line = scanner.Text()
-
-		if isDomainScoreLine(line) {
+		if strings.HasPrefix(line, "This report compares") {
+			words := strings.Fields(line)
+			user = words[3]
+		} else if isDomainScoreLine(line) {
 
 			if !isFirstRun {
 				d.OverallScore = domainScore
@@ -103,6 +102,8 @@ func (s BigFiveResultsTextSerializer) Hash() string {
 		p.OpennessToExperience = d
 	}
 
+	p.Name = user
+
 	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
@@ -111,7 +112,7 @@ func (s BigFiveResultsTextSerializer) Hash() string {
 	if err != nil {
 		panic(err)
 	}
-
+	//fmt.Println(string(jsonStr))
 	return strings.Replace(string(jsonStr), ":", "=>", -1)
 }
 

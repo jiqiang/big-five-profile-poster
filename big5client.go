@@ -1,3 +1,4 @@
+//qiang.ji@yahoo.com.au YRzqVEdSnDURzboSDswAXonq
 package main
 
 import (
@@ -16,5 +17,10 @@ func main() {
 
 	result := serializer.Hash()
 
-	fmt.Println(result)
+	poster := utils.BigFiveResultsPoster{}
+	poster.Initialize(result, config.Email)
+
+	poster.Post(config.Endpoint)
+	fmt.Println(poster.ResponseCode)
+	fmt.Println(poster.Token)
 }

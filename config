@@ -1,5 +1,5 @@
 {
     "endpoint": "https://recruitbot.trikeapps.com/api/v1/roles/mid-senior-web-developer/big_five_profile_submissions",
-    "email": "qiang.j@gmail.com",
+    "email": "test1@gmail.com",
     "source": "./big5profile"
 }
