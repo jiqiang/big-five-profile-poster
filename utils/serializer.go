@@ -112,7 +112,7 @@ func (s BigFiveResultsTextSerializer) Hash() string {
 		panic(err)
 	}
 
-	return string(jsonStr)
+	return strings.Replace(string(jsonStr), ":", "=>", -1)
 }
 
 func isDomainScoreLine(line string) bool {
