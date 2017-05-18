@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bufio"
+	"encoding/json"
 	"regexp"
 	"strconv"
 	"strings"
@@ -32,9 +33,7 @@ func (s *BigFiveResultsTextSerializer) Read(text string) {
 }
 
 // Hash function
-func (s BigFiveResultsTextSerializer) Hash() map[string]int {
-
-	data := make(map[string]int)
+func (s BigFiveResultsTextSerializer) Hash() string {
 
 	facets := make(map[string]int)
 
@@ -108,7 +107,12 @@ func (s BigFiveResultsTextSerializer) Hash() map[string]int {
 		panic(err)
 	}
 
-	return data
+	jsonStr, err := json.Marshal(&p)
+	if err != nil {
+		panic(err)
+	}
+
+	return string(jsonStr)
 }
 
 func isDomainScoreLine(line string) bool {

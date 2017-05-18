@@ -14,8 +14,7 @@ func main() {
 	serializer := utils.BigFiveResultsTextSerializer{}
 	serializer.Read(string(contentBytes))
 
-	results := serializer.Hash()
+	result := serializer.Hash()
 
-	fmt.Println(results)
-	fmt.Println(len(results))
+	fmt.Println(result)
 }
