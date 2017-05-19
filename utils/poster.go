@@ -2,7 +2,6 @@ package utils
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -17,23 +16,29 @@ type BigFiveResultsPoster struct {
 
 // Initialize hash and email
 func (p *BigFiveResultsPoster) Initialize(resultsHash string, email string) {
-	resultsHash = resultsHash[:1] + `"EMAIL"=>` + email + "," + resultsHash[1:]
+	// add email to the hash
+	resultsHash = resultsHash[:1] + `"EMAIL"=>"` + email + "\"," + resultsHash[1:]
+	// reformat hash to be a valid json string
 	resultsHash = strings.Replace(resultsHash, "=>", ":", -1)
-	fmt.Println(resultsHash)
+	// set data to be hash byts array for post use
 	p.data = []byte(resultsHash)
 }
 
 // Post to endpoint
 func (p BigFiveResultsPoster) Post(url string) bool {
-	resp, _ := http.Post(url, "application/json", bytes.NewBuffer(p.data))
+	// post to endpoint and set content type to be json
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(p.data))
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
 
-	//defer resp.Body.Close()
-
+	// get status code
 	p.ResponseCode = resp.StatusCode
+	// read body from response
 	body, _ := ioutil.ReadAll(resp.Body)
-
+	// set token from body
 	p.Token = string(body)
-	fmt.Println(p.Token)
 	if resp.StatusCode != 201 {
 		return false
 	}

@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 )
 
-// Config is a struct hosting config data.
+// Config class makes email, endpoint and source file path configurable
 type Config struct {
 	Endpoint string
 	Email    string
@@ -20,7 +20,6 @@ func GetConfig(path string) Config {
 	if err != nil {
 		panic(err)
 	}
-
 	return config
 }
 

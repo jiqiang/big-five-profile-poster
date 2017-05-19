@@ -8,19 +8,24 @@ import (
 )
 
 func main() {
+	// load configuration from file
 	config := utils.GetConfig("./config")
 
 	contentBytes := utils.GetFileContent(config.Source)
-
 	serializer := utils.BigFiveResultsTextSerializer{}
-	serializer.Read(string(contentBytes))
-
-	result := serializer.Hash()
+	// read content
+	serializer.Initialize(string(contentBytes))
+	// build hash
+	hash := serializer.Hash()
 
 	poster := utils.BigFiveResultsPoster{}
-	poster.Initialize(result, config.Email)
 
+	// read hash and add email to hash
+	poster.Initialize(hash, config.Email)
+	// post to endpoint
 	poster.Post(config.Endpoint)
+
+	// print out status code and token
 	fmt.Println(poster.ResponseCode)
 	fmt.Println(poster.Token)
 }
